@@ -1,8 +1,7 @@
 using Backend.Interfaces;
-using Backend.Models;
 
 public interface IUnitOfWork : IDisposable
 {
-    IGenericService<Point> PointService { get; }
+    IGenericService<T> Repository<T>() where T : class;  // Updated to return IRepositoryService<T>
     Task<int> SaveChangesAsync();
 }

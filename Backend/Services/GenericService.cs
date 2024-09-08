@@ -23,11 +23,11 @@ public class GenericService<T> : IGenericService<T> where T : class
         {
             Value = entities,
             Status = true,
-            Message = $"{typeof(T).Name} entities retrieved successfully"
+            Message = $"{typeof(T).Name} entities"
         };
     }
 
-    public async Task<Response<T>> GetByIdAsync(int id)
+    public async Task<Response<T>> GetByIdAsync(long id)
     {
         var entity = await _dbSet.FindAsync(id);
         if (entity == null)
@@ -43,7 +43,7 @@ public class GenericService<T> : IGenericService<T> where T : class
         {
             Value = entity,
             Status = true,
-            Message = $"{typeof(T).Name} retrieved successfully"
+            Message = $"{typeof(T).Name} retrieved"
         };
     }
 
@@ -56,11 +56,11 @@ public class GenericService<T> : IGenericService<T> where T : class
         {
             Value = entity,
             Status = true,
-            Message = $"{typeof(T).Name} created successfully"
+            Message = $"{typeof(T).Name} created"
         };
     }
 
-    public async Task<Response<T>> UpdateAsync(int id, T entity)
+    public async Task<Response<T>> UpdateAsync(long id, T entity)
     {
         var existingEntity = await _dbSet.FindAsync(id);
         if (existingEntity == null)
@@ -79,11 +79,11 @@ public class GenericService<T> : IGenericService<T> where T : class
         {
             Value = entity,
             Status = true,
-            Message = $"{typeof(T).Name} updated successfully"
+            Message = $"{typeof(T).Name} updated"
         };
     }
 
-    public async Task<Response<bool>> DeleteAsync(int id)
+    public async Task<Response<bool>> DeleteAsync(long id)
     {
         var entity = await _dbSet.FindAsync(id);
         if (entity == null)
@@ -91,7 +91,8 @@ public class GenericService<T> : IGenericService<T> where T : class
             return new Response<bool>
             {
                 Status = false,
-                Message = $"{typeof(T).Name} with ID {id} not found"
+                Message = $"{typeof(T).Name} with ID {id} not found",
+                Value = false
             };
         }
 
@@ -100,9 +101,9 @@ public class GenericService<T> : IGenericService<T> where T : class
 
         return new Response<bool>
         {
-            Value = true,
             Status = true,
-            Message = $"{typeof(T).Name} deleted successfully"
+            Message = $"{typeof(T).Name} deleted",
+            Value = true
         };
     }
 }

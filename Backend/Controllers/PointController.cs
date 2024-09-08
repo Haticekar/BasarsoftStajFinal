@@ -1,64 +1,119 @@
+using Backend.Interfaces;
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/[controller]")]
-[ApiController]
-public class PointController : ControllerBase
+namespace Backend.Controllers
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public PointController(IUnitOfWork unitOfWork)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PointController : ControllerBase
     {
-        _unitOfWork = unitOfWork;
-    }
+        private readonly IGenericService<Point> _pointService;
 
-    [HttpGet("fromdatabase")]
-    public async Task<ActionResult<Response<IEnumerable<Point>>>> GetAllFromDatabase()
-    {
-        var points = await _unitOfWork.PointService.GetAllAsync();
-        return Ok(points);
-    }
-
-    [HttpGet("fromdatabase/{id}")]
-    public async Task<ActionResult<Response<Point>>> GetByIdFromDatabase(int id)
-    {
-        var point = await _unitOfWork.PointService.GetByIdAsync(id);
-        if (!point.Status)
+        public PointController(IGenericService<Point> pointService)
         {
-            return NotFound(point);
+            _pointService = pointService;
         }
-        return Ok(point);
-    }
 
-    [HttpPost("fromdatabase")]
-    public async Task<ActionResult<Response<Point>>> CreatePoint([FromBody] Point newPoint)
-    {
-        var response = await _unitOfWork.PointService.AddAsync(newPoint);
-        await _unitOfWork.SaveChangesAsync();  // Committing changes using Unit of Work
-        return CreatedAtAction(nameof(GetByIdFromDatabase), new { id = response.Value.Id }, response);
-    }
-
-    [HttpPut("fromdatabase/{id}")]
-    public async Task<ActionResult<Response<Point>>> UpdatePoint(int id, [FromBody] Point updatePoint)
-    {
-        var response = await _unitOfWork.PointService.UpdateAsync(id, updatePoint);
-        if (!response.Status)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            return NotFound(response);
+            try
+            {
+                var points = await _pointService.GetAllAsync();
+                return Ok(points);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred." });
+            }
         }
-        await _unitOfWork.SaveChangesAsync();  // Committing changes using Unit of Work
-        return Ok(response);
-    }
 
-    [HttpDelete("fromdatabase/{id}")]
-    public async Task<ActionResult<Response<bool>>> DeletePoint(int id)
-    {
-        var response = await _unitOfWork.PointService.DeleteAsync(id);
-        if (!response.Status)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
         {
-            return NotFound(response);
+            try
+            {
+                var point = await _pointService.GetByIdAsync(id);
+                if (point == null)
+                {
+                    return NotFound(new { message = "Point not found." });
+                }
+                return Ok(point);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred." });
+            }
         }
-        await _unitOfWork.SaveChangesAsync();  // Committing changes using Unit of Work
-        return Ok(response);
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Point point)
+        {
+            try
+            {
+                if (point == null)
+                {
+                    return BadRequest(new { message = "Invalid data." });
+                }
+
+                var createdPoint = await _pointService.AddAsync(point);
+                return CreatedAtAction(nameof(GetById), new { id = createdPoint.Value.UniqueId }, createdPoint);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred while creating." });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(long id, [FromBody] Point point)
+        {
+            try
+            {
+                if (point == null || id != point.UniqueId)
+                {
+                    return BadRequest(new { message = "Invalid data." });
+                }
+
+                var existingPoint = await _pointService.GetByIdAsync(id);
+                if (existingPoint == null)
+                {
+                    return NotFound(new { message = "Point not found." });
+                }
+
+                await _pointService.UpdateAsync(id, point);
+                return Ok(new { message = "Point updated." });
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred while updating." });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            try
+            {
+                var point = await _pointService.GetByIdAsync(id);
+                if (point == null)
+                {
+                    return NotFound(new { message = "Point not found." });
+                }
+
+                var result = await _pointService.DeleteAsync(id);
+                if (!result.Status)
+                {
+                    return StatusCode(500, new { message = "An error occurred while deleting." });
+                }
+
+                return Ok(new { message = "Point deleted." });
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, new { message = "An error occurred while deleting." });
+            }
+        }
     }
 }

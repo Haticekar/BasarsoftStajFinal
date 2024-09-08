@@ -12,18 +12,17 @@ namespace Backend.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Points",
+                name: "staj",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    UniqueId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    PointX = table.Column<double>(type: "double precision", nullable: false),
-                    PointY = table.Column<double>(type: "double precision", nullable: false)
+                    GeoData = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Points", x => x.Id);
+                    table.PrimaryKey("PK_staj", x => x.UniqueId);
                 });
         }
 
@@ -31,7 +30,7 @@ namespace Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Points");
+                name: "staj");
         }
     }
 }

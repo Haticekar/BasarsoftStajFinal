@@ -23,24 +23,22 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Point", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("UniqueId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("UniqueId"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("GeoData")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("PointX")
-                        .HasColumnType("double precision");
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
 
-                    b.Property<double>("PointY")
-                        .HasColumnType("double precision");
+                    b.HasKey("UniqueId");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Points");
+                    b.ToTable("staj", (string)null);
                 });
 #pragma warning restore 612, 618
         }

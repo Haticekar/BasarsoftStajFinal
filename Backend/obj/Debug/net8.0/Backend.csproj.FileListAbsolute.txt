@@ -253,3 +253,4 @@
 /Users/haticekar/Desktop/Backend/Backend/obj/Debug/net8.0/ref/Backend.dll
 /Users/haticekar/Desktop/Backend/Backend/bin/Debug/net8.0/Npgsql.dll
 /Users/haticekar/Desktop/Backend/Backend/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/haticekar/Desktop/Backend/Backend/obj/Debug/net8.0/Backend.sourcelink.json
