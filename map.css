@@ -1,0 +1,288 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Header düzenlemesi */
+header {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+}
+
+#app-title {
+    color: #4f89b6; 
+    background-color: #2c3e50;
+    padding: 5px;
+    text-align: center;
+    font-size: 40px;
+    margin: 0;
+    border-bottom: 1px solid black;
+}
+
+/* Navbar düzenlemesi */
+nav {
+    width: 100%;
+    background-color: #2c3e50;
+    padding: 15px 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border-bottom: none;
+}
+
+
+nav button,
+#darkModeBtn {
+    padding: 10px 20px;
+    background-color: #34495e;
+    color: #ecf0f1;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+nav button:hover,
+#darkModeBtn:hover {
+    background-color: #1abc9c;
+}
+
+/* Harita */
+#map {
+    width: 100%;
+    height: 80vh;
+    margin: 0;
+    border: 1px solid #34495e;
+}
+
+/* Query Paneli (Varsayılan) */
+#query-panel {
+    border: 2px solid #007bff; 
+    background-color: white; 
+    color: black; 
+}
+
+/* Popup (Varsayılan) */
+#popup-content {
+    background-color: #088f50; 
+    color: #004d40;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(152, 118, 5, 0.1);
+    border: 2px solid transparent; 
+}
+/* jsPanel Titlebar ve Tablolar */
+.jsPanel-titlebar {
+    background-color: #007bff; 
+    color: #ffffff; 
+}
+
+body.dark-mode .jsPanel-titlebar {
+    background-color: #ff5733; 
+    color: #ffffff; 
+}
+
+/* Dark mode düzenlemesi */
+body.dark-mode {
+    background-color: #2c3e50;
+    color: #f5f6fa;
+}
+
+/* Dark mode'da başlık rengi */
+body.dark-mode #app-title {
+    color: #ff7733; 
+}
+
+/* Dark mode'da navbar ve butonlar */
+body.dark-mode nav,
+body.dark-mode #darkModeBtn {
+    background-color: #485460;
+}
+
+body.dark-mode nav button,
+body.dark-mode #darkModeBtn {
+    background-color: #485460;
+    color: #ff7733; 
+}
+
+body.dark-mode nav button:hover,
+body.dark-mode #darkModeBtn:hover {
+    background-color: #0fbcf9;
+}
+
+/* Dark mode jsPanel-headerbar kırmızıya dönüşmesi */
+body.dark-mode .jsPanel-headerbar {
+    background-color: #ff5733; 
+    color: #ffffff; 
+}
+
+.dark-mode #map {
+    filter: grayscale(100%);
+    background-color: #111;
+}
+
+/* Query Paneli (Dark Mode) */
+body.dark-mode #query-panel {
+    border: 2px solid #ff5733; 
+    background-color: #3d3d3d; 
+    color: #f5f6fa; 
+}
+
+/* Popup (Dark Mode) */
+body.dark-mode #popup-content {
+    background-color: #444; 
+    color: cadetblue; 
+    border: 2px solid #339cff; 
+    box-shadow: none; 
+}
+
+/* Popup modal */
+.popup-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #27ae60;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-modal button {
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.popup-modal button:hover {
+    background-color: #e74c3c;
+}
+
+/* Form düğmeleri */
+#pointForm button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    width: 120px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+#pointForm button[type='submit'] {
+    background-color: #27ae60;
+    color: white;
+}
+
+#cancel-button {
+    background-color: #e74c3c;
+    color: white;
+    margin-left: 10px;
+}
+
+#pointForm button:hover {
+    opacity: 0.9;
+}
+
+/* Çizgi için güncelleme */
+header, nav {
+    border-bottom: 3px solid black;
+}
+
+/* Popup arka planı için yeni stil */
+#popup-content {
+    background-color: #088f50;
+    color: #004d40;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(152, 118, 5, 0.1);
+}
+
+/* Popup genel stil */
+#popup {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 400px;
+    height: auto;
+    background-color: transparent; 
+    display: none;
+    z-index: 1000;
+    box-shadow: none; 
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+/* Sağda görünecek popup */
+#right-popup {
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 400px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+}
+/* jsPanel içerik alanı için arka plan */
+body.dark-mode .jsPanel-content {
+    background-color: #3d3d3d; 
+    color: #f5f6fa; 
+}
+/* SweetAlert2 modallar için varsayılan stil */
+.swal2-popup {
+    background-color: #ffffff; 
+    color: #000000; 
+}
+
+/* SweetAlert2 için dark mode stilleri */
+body.dark-mode .swal2-popup {
+    background-color: #2e2e2e; 
+    color: #f5f5f5; 
+}
+
+body.dark-mode .swal2-title {
+    color: #ff5733; 
+}
+
+body.dark-mode .swal2-confirm {
+    background-color: #1a47a9; 
+    color: #ffffff; 
+    border: none;
+}
+
+body.dark-mode .swal2-cancel {
+    background-color: #e74c3c; 
+    color: #ffffff; 
+    border: none;
+}
+
+body.dark-mode .swal2-select {
+    background-color: #3d3d3d; /* Select dropdown için arka plan */
+    color: #ffffff; /* Select dropdown yazı rengi */
+    border: 1px solid #555555; 
+}
+
+body.dark-mode .swal2-input {
+    background-color: #3d3d3d; 
+    color: #ffffff; 
+    border: 1px solid #555555; 
+}
+
+body.dark-mode .swal2-icon {
+    background-color: #444444; 
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map Application</title>
+    <link rel="stylesheet" href="map.css" />
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- SweetAlert2 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <!-- jsPanel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/jspanel4@4.15.0/dist/jspanel.css"
+    />
+    <!-- OpenLayers CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v10.1.0/ol.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 id="app-title">Map Application</h1> <!-- Updated color -->
+        <nav class="navbar">
+          <button id="addPointBtn" class="btn">Add Point</button>
+          <button id="queryBtn" class="btn">Query</button>
+          <button id="geometryBtn" class="btn">Geometry</button>
+          <button id="darkModeBtn" class="btn">Toggle Theme</button> <!-- Dark Mode Button -->
+          <button id="resetViewBtn" class="btn">
+            <i class="fas fa-home"></i>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <div id="popup" class="popup">
+      <div id="popup-content">
+        <p><strong>ID:</strong> <span id="popup-UniqueId"></span></p>
+        <p><strong>Title:</strong> <span id="popup-Title"></span></p>
+        <p><strong>GeoData:</strong> <span id="popup-geoData"></span></p>
+        <div class="button-container">
+          <button id="update-btn" class="popup-btn">Update</button>
+          <button id="delete-btn" class="popup-btn">Delete</button>
+          <button id="close-popup-btn" class="popup-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div id="map" class="map"></div>
+      <div id="infoPopup"></div>
+    </main>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspanel4@4.15.0/dist/jspanel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.1.0/dist/ol.js"></script>
+
+    <script>
+      // Dark Mode & Light Mode Toggle
+      const darkModeBtn = document.getElementById('darkModeBtn');
+      const body = document.body;
+      const mapDiv = document.getElementById('map');
+
+      darkModeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        mapDiv.classList.toggle('dark-mode');
+
+        // Harita stili değiştirme (Dark ve Light Mode arasında)
+        const layers = map.getLayers().getArray();
+        layers.forEach(layer => {
+          const source = layer.getSource();
+          if (source instanceof ol.source.OSM) {
+            if (darkModeBtn.innerText === "Dark Mode") {
+              source.setUrl('https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'); 
+            } else {
+              source.setUrl('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}.png');
+            }
+          }
+        });
+  
+
+        // Toggle the text between Dark Mode and Light Mode
+        /*if (darkModeBtn.innerText === "Dark Mode") {
+          darkModeBtn.innerText = "Light Mode";
+        } else {
+          darkModeBtn.innerText = "Dark Mode";
+        }*/
+      });
+      
+    </script>
+    <script src="map.js"></script>
+  </body>
+</html>
