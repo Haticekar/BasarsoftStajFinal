@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
           dataProjection: "EPSG:3857", 
           featureProjection: map.getView().getProjection(),
         });
+        console.log(`asd: ${response.json()}`);
 
         if (!feature) {
           console.error("Failed to create geometry. geoData:", geometryData.geoData);
@@ -156,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const loadMarkers = async () => {
     try {
+      //veritabanini bir temizleyebilir miyiz
       const response = await fetch("http://localhost:5021/api/Point");
       const data = await response.json();
       if (data.status) {
@@ -167,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
             dataProjection: "EPSG:3857", 
             featureProjection: map.getView().getProjection(),
           });
-          feature.setId(point.uniqueId); // TODO
+          feature.setId(point.uniqueId);
           feature.set("name", point.Title);
           vectorSource.addFeature(feature);
         });
@@ -334,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ UniqueId, name, geoData }),
+      body: JSON.stringify({ uniqueId: UniqueId, title: name, geodata: geoData }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -368,7 +370,8 @@ document.addEventListener("DOMContentLoaded", () => {
           throw new Error("No geometry data found");
         }
 
-        const existingTitle = point.value.name;
+        console.log(point.value);
+        const existingTitle = point.value.title;
         const existinggeoData = point.value.geoData;
 
         // SweetAlert2 ile bir popup aç ve mevcut bilgileri yerleştir ? gpt 
